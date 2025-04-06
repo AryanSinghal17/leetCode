@@ -16,7 +16,7 @@ public:
         }
         ListNode*last = reverseList(head->next);
         head->next->next = head;
-        head->next =  nullptr;
+        head->next = nullptr;
         return last;
     }
 };
