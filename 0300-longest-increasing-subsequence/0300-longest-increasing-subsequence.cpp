@@ -17,6 +17,11 @@ public:
     int lengthOfLIS(vector<int>& nums) {
         int n = nums.size();
         vector<vector<int>>dp(n+1,vector<int>(n+1,-1));
+        for(int i = n-1;i>=0;i--){
+            for(int j = i-1;j>=-1;j--){
+                int len = 0 + dp[i+1][j+1];
+            }
+        }
        return solve(nums,0,-1,n,dp); 
     }
 };
