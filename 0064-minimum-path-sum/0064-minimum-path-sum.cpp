@@ -1,34 +1,44 @@
 class Solution {
 public:
-    int solve(int m,int n,vector<vector<int>>& grid,vector<vector<int>>& dp){
-        if(m == 0 && n == 0) return grid[m][n];
+    int solve(vector<vector<int>>& arr, int m, int n) {
+        if (m == 0 && n == 0)
+            return arr[m][n];
 
-        if(m < 0 || n < 0) return INT_MAX;
-        if(dp[m][n] != -1) return dp[m][n];
+        if (m < 0 || n < 0)
+            return INT_MAX;
 
-        int up = solve(m-1,n,grid,dp);
-        int left = solve(m,n-1,grid,dp);
+        int up = solve(arr, m - 1, n);
+        int left = solve(arr, m, n - 1);
 
-        return dp[m][n] = grid[m][n] + min(up,left);
+        return arr[m][n] + min(up, left);
     }
-    int minPathSum(vector<vector<int>>& grid) {
-        int m = grid.size();
-        int n = grid[0].size();
-        vector<vector<int>>dp(m,vector<int>(n,-1));
 
-        for(int i = 0;i<m;i++){
-            for(int j = 0;j<n;j++){
-                if(i == 0 && j == 0) dp[i][j] = grid[i][j];
-                else{
-                    int up =0 ,left = 0;
-                    if(i > 0) up +=dp[i-1][j];
-                    else up += 1e9;
-                    if(j >0 ) left += dp[i][j-1];
-                    else left +=  1e9;
-                    dp[i][j] = grid[i][j] + min(up, left);
+    int minPathSum(vector<vector<int>>& arr) {
+        int m = arr.size();
+        int n = arr[0].size();
+        vector<vector<int>> dp(m, vector<int>(n, 0));
+
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (i == 0 && j == 0)
+                    dp[i][j] = arr[i][j];
+                else {
+                    int up = arr[i][j];
+                    if (i > 0)
+                        up += dp[i - 1][j];
+                    else
+                        up = INT_MAX;
+
+                    int left = arr[i][j];
+                    if (j > 0)
+                        left += dp[i][j - 1];
+                    else
+                        left = INT_MAX;
+
+                    dp[i][j] = min(up, left);
                 }
             }
         }
-        return dp[m-1][n-1];
+        return dp[m - 1][n - 1];
     }
 };
