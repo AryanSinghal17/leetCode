@@ -5,8 +5,6 @@ public:
 
         sort(nums.begin(),nums.end());
 
-        
-
         int num = INT_MIN;
         int cnt = 0;
         int length = 1;
