@@ -6,7 +6,7 @@ public:
         stack<int> st;
 
         for (int i = 2 * n - 1; i >= 0; i--) {
-            while (!st.empty() && st.top() <= nums[i % n]) {
+            while (st.size() > 0 && st.top() <= nums[i % n]) {
                 st.pop();
             }
             if (i < n) {
