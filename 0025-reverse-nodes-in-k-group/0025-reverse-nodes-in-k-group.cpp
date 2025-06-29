@@ -10,38 +10,52 @@
  */
 class Solution {
 public:
-    ListNode* reverseKGroup(ListNode* h, int k) {
-        if(k == 0){
-            return h;
+    ListNode*rev(ListNode*head){
+        if(head == nullptr || head->next == nullptr){
+            return head;
         }
+        ListNode*temp = rev(head->next);
+        head->next->next = head;
+        head->next = nullptr;
+        return temp;
+    }
 
-        vector<int>vec;
-        ListNode*temp = h;
-
-        while(temp!= nullptr){
-            vec.push_back(temp->val);
+    ListNode*kthNode(ListNode*temp,int k){
+        k -= 1;
+        while(temp != nullptr && k> 0){
+            k--;
             temp = temp->next;
         }
+        return temp;
+    }
 
-        int n = vec.size();
-        for (int i = 0; i + k <= n; i += k) {
-            reverse(vec.begin() + i, vec.begin() + i + k);
-        }
+    ListNode* reverseKGroup(ListNode* head, int k) {
+        ListNode*temp = head;
+        ListNode*nextNode = nullptr;
 
-        ListNode*head = nullptr;
-        ListNode*tail = nullptr;
+        while(temp != nullptr){
+            ListNode*kth = kthNode(temp,k);
 
-        for(int i = 0;i<n;i++){
-            ListNode*data = new ListNode(vec[i]);
-            if(head ==  nullptr){
-                head = data;
-                tail = data;
-            }else{
-                tail->next = data;
-                tail = tail->next;
+            if(kth == nullptr){
+                if(nextNode){
+                    nextNode->next = temp;
+                }
+                break;
             }
-        }
 
+            ListNode*Node = kth->next;
+            kth->next = nullptr;
+            rev(temp);
+
+            if(temp == head){
+                head = kth;
+            }else{
+                nextNode->next = kth;
+            }
+
+            nextNode = temp;
+            temp = Node;
+        }
         return head;
     }
 };
